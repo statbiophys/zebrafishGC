@@ -27,9 +27,6 @@ if nargin < 5
     constantFlag = 1;
 end
 
-if nargin < 6
-    fstat_effect = 0;
-end
 %%
 
 nSamples = length(x1);
@@ -63,20 +60,10 @@ rss_full = sum(residue_full.^2);
 if constantFlag
     fstat = (rss_reduced/rss_full - 1) ...
         * (nSamples_regress - 2 * lags - 1)/lags;
-
-    if fstat_effect > 0
-        pvalue = fcdf(fstat,lags, fstat_effect,'upper');
-    else
-        pvalue = fcdf(fstat,lags, nSamples_regress - 2*lags - 1,'upper');
-
-    end
+    pvalue = fcdf(fstat,lags, nSamples_regress - 2*lags - 1,'upper');
 else
     fstat = (rss_reduced/rss_full - 1) * (nSamples_regress - 2 * lags)/lags;
-    if fstat_effect > 0
-        pvalue = fcdf(fstat,lags, fstat_effect,'upper');
-    else
-        pvalue = fcdf(fstat,lags, nSamples_regress - 2*lags,'upper');
-    end
+    pvalue = fcdf(fstat,lags, nSamples_regress - 2*lags,'upper');
 end
 %%
 if plotFlag
@@ -87,7 +74,5 @@ if plotFlag
     hold off
     
 end
-
-
 
 end
