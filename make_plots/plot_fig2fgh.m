@@ -1,4 +1,4 @@
-function plot_fig_fnr_fpr_vs_lag
+function plot_fig2fgh
 % For synthetic data with true underlying interaction network,
 % we ask the question, how does the time lag used in the GC analysis
 % change the resulting network.
