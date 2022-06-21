@@ -1,5 +1,5 @@
 # zebrafishGC
-Python and MATLAB code for Granger causality analysis on empirically observed calcium transients in zebrafish neuronal populations, and on synthetic dynamics generated on toy networks.
+Python and MATLAB code for Granger causality analysis on empirically observed calcium transients in zebrafish neuronal populations, and on synthetic dynamics generated on toy networks. This set of codes is assciated with the manuscript "Granger causality analysis for calcium transients in neuronal networks: challenges and improvements", by X. Chen, F. Ginoux, C. Wyart, T. Mora, and A. M. Walczak (2022).
 
 
 The pipeline for analyzing the hindbrain data can be found in gc_pipeline/demo_GC.ipynb
