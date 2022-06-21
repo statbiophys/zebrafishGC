@@ -9,6 +9,8 @@ function simulate_motoneuron_w_vs_tau_info
 % lambda = 32 s^-1
 % 
 % Vary tau_info from 0.01s to 0.25s, see how accurate is W_{IR} W_{RC}
+%
+% This code plots Fig 5.C in the manuscript.
 
 %%
 nNodes = 10;
