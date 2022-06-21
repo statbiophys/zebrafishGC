@@ -1,18 +1,21 @@
 function simulate_motoneuron_w_vs_tau_info
-% XC 2022-04-22
+% Simulate zebrafish embryonic motoneurons' calcium transients
+% with empirically observed statistics of the data
 %
-% Fix tau_ca = 2.5s, tau_sampling = 0.25s
+% Compute the directional preference W_{IR} and W_{RC} as a function of
+% information propagation time scale tau_{info}
+%
+% Fix tau_ca = 2.5s, tau_sampling = 0.25s, as given by the experiment
 % lambda = 32 s^-1
 % 
 % Vary tau_info from 0.01s to 0.25s, see how accurate is W_{IR} W_{RC}
 
 %%
-% nNodes = 10;
+nNodes = 10;
 
-sampling_freq = 4 ; % 4 hz
-% params.dt_sim = 1/sampling_freq;
+sampling_freq = 4 ;
 
-dt_sim = 0.0125; %0.025; %0.125;
+dt_sim = 0.0125; % time step used in simulation, in unit of seconds
 params.dt_sim = dt_sim;
 
 t_fire_min = 8 / sampling_freq / dt_sim; % 8 time points continuously
@@ -20,7 +23,7 @@ t_fire_max = 16 / sampling_freq / dt_sim ;
 t_quiet_min = 20 / sampling_freq / dt_sim ; %30; 
 t_quiet_max = 50 / sampling_freq / dt_sim ;
 
-spike_rate =  32; % 0.4;
+spike_rate =  32; % lambdad
 
 dt_min = 2 / sampling_freq / dt_sim ; 
 dt_max = 10 / sampling_freq / dt_sim ; 
