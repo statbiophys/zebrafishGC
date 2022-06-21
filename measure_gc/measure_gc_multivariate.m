@@ -1,11 +1,10 @@
-function [fstat, pvalue, rss_reduced, rss_full, reduced_params, full_params] = ...
-    measure_gc_multivariate(x1, x2, xrest, lags, ...
-    plotFlag, constantFlag)
+function [fstat, pvalue, rss_reduced, rss_full] = ... %, reduced_params, full_params] = ...
+    measure_gc_multivariate(x1, x2, xrest, lags, plotFlag, constantFlag)
 % [fstat, pvalue, rss_reduced, rss_full] = ...
-%    measure_gc_bivariate(x1, x2, lags, ...
-%    plotFlag, constantFlag, fstat_effect)
+%    measure_gc_multivariate(x1, x2, xrest, lags, ...
+%    plotFlag, constantFlag)
 %  
-%  Measure granger causality from x2 to x1
+%  Measure multivariate granger causality from x2 to x1, conditioned on xrest
 %
 %  Input: 1. x1: one-dimensional time-series of the "receiver" neuron
 %         2. x2: one-dimensional time-series of the "drive" neuron
@@ -31,10 +30,6 @@ if nargin < 6
     constantFlag = 1;
 end
 
-if nargin < 7
-    fstat_effect = 0;
-end
-%%
 
 nSamples = length(x1);
 nSamples_regress = nSamples - lags;
@@ -70,25 +65,13 @@ rss_reduced = sum(residue_reduced.^2);
 rss_full = sum(residue_full.^2);
 
 if constantFlag
-%     fstat = (rss_reduced/rss_full - 1) ...
-%         * (nSamples - (nNodes_rest+2) * lags - 1)/lags;
      fstat = (rss_reduced/rss_full - 1) ...
             * (nSamples_regress - (nNodes_rest+2) * lags - 1)/lags;
-    if fstat_effect > 0
-        pvalue = fcdf(fstat, lags, fstat_effect, 'upper');
-    else
-        pvalue = fcdf(fstat, lags, nSamples_regress-(nNodes_rest+2)*lags - 1, 'upper');
-%         pvalue = fcdf(fstat, lags, nSamples-(nNodes_rest+2)*lags - 1, 'upper');
-    end
+     pvalue = fcdf(fstat, lags, nSamples_regress-(nNodes_rest+2)*lags - 1, 'upper');
 else
     fstat = (rss_reduced/rss_full - 1) ...
         * (nSamples_regress - (nNodes_rest+2) * lags)/lags;
-    if fstat_effect > 0
-        pvalue = fcdf(fstat, lags, fstat_effect, 'upper');
-    else
-        pvalue = fcdf(fstat, lags, nSamples_regress-(nNodes_rest+2)*lags, 'upper');
-    end
-    
+    pvalue = fcdf(fstat, lags, nSamples_regress-(nNodes_rest+2)*lags, 'upper');
 end
     
     
