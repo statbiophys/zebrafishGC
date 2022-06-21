@@ -6,4 +6,4 @@ The pipeline for analyzing the hindbrain data can be found in gc_pipeline/demo_G
 
 To smooth noisy data using total-variation regularization, please refer to the MATLAB code in tvrg-smooth.
 
-The MATLAB code to generate synthetic data can be find in folders simulate_dynamics, and plot_figs.
+The MATLAB code to generate synthetic data can be find in folders simulate_dynamics, and make_figs. All auxillary functions are included in the folder matlab_tools.
