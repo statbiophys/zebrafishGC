@@ -92,17 +92,8 @@ params.tau_ca = tau;
 sigma_sim_glm_cont = spike_to_calcium(sigma_sim_glm, params); 
 
 
-%
+% 2.2.4 Visualize synthetic trajectories: GLM
 figure(3)
-plot(sigma_sim_glm_cont(1,:)+10)
-hold on
-plot(sigma_sim_glm_cont(4,:)+5)
-plot(sigma_sim_glm_cont(10,:)-4)
-hold off
-xlim([200 300])
-
-%%
-figure(4)
 subplot(3,1,1)
 stem(sigma_sim_glm(1,:))
 xlim([200 300])
@@ -114,6 +105,120 @@ xlim([200 300])
 subplot(3,1,3)
 stem(sigma_sim_glm(10,:), 'color',matlab_yellow)
 xlim([200 300])
-        
+
+% 2.2.5 Visualize synthetic trajectories: GLM-calcium
+figure(4)
+plot(sigma_sim_glm_cont(1,:)+10)
+hold on
+plot(sigma_sim_glm_cont(4,:)+5)
+plot(sigma_sim_glm_cont(10,:)-4)
+hold off
+xlim([200 300])
+
+%% 3. Compute pairwise correlation and Granger Causality among all pairs
+plotFlag = 0; constantFlag = 1;
+[corr_mat_var, bvgc_mat_var, mvgc_mat_var, ...
+    bvgc_pvalue_mat_var, mvgc_pvalue_mat_var, ...
+    bvgc_fstat_mat_var, mvgc_fstat_mat_var] = ...
+    compute_corr_mat_and_gc_mat ...
+    (sigma_sim_var - repmat(mean(sigma_sim_var,2),1,tf), maxLags, plotFlag, constantFlag);
+
+[corr_mat_glm, bvgc_mat_glm, mvgc_mat_glm, ...
+    bvgc_pvalue_mat_glm, mvgc_pvalue_mat_glm, ...
+    bvgc_fstat_mat_glm, mvgc_fstat_mat_glm] = ...
+    compute_corr_mat_and_gc_mat (...
+    sigma_sim_glm - repmat(mean(sigma_sim_glm,2),1,tf), ...
+    maxLags, plotFlag, constantFlag);
+
+[corr_mat_glm_cont, bvgc_mat_glm_cont, mvgc_mat_glm_cont, ...
+    bvgc_pvalue_mat_glm_cont, mvgc_pvalue_mat_glm_cont, ...
+    bvgc_fstat_mat_glm_cont, mvgc_fstat_mat_glm_cont] = ...
+    compute_corr_mat_and_gc_mat ...
+    (sigma_sim_glm_cont - repmat(mean(sigma_sim_glm_cont,2),1,tf), ...
+    maxLags, plotFlag, constantFlag);
+
+%% 3.1 Visualize the correlation matrices for the three example trajectories
+figure(11)
+subplot(3,1,1)
+imagesc(corr_mat_var)
+title('VAR')
+
+subplot(3,1,2)
+imagesc(corr_mat_glm)
+title('GLM')
+
+subplot(3,1,3)
+imagesc(corr_mat_glm_cont)
+title('GLM-calcium')
+
+
+for i = 1:3
+    subplot(3,1,i)
+    c=colorbar()
+%     caxis([-0.4 0.4])
+    axis square
+    xlabel('to neuron')
+    ylabel('from neuron')
+    xticks([1 10])
+    yticks([1 10])
+    set(gca,'fontsize',12)
+    ylabel(c,'correlation')
+end
+
+%% 3.2 Visualize the GC matrices for the three example trajectories
+
+figure(12)
+subplot(3,2,1)
+imagesc(bvgc_mat_var')
+hold on
+plot(links(:,2), links(:,1),'r.','MarkerSize',12)
+hold off
+axis square
+title('VAR, BVGC')
+
+subplot(3,2,2)
+imagesc(mvgc_mat_var')
+colormap([0.98 0.98 0.92; 0 0 0])
+overlay_refmat(links)
+axis square
+title('VAR, MVGC')
+
+subplot(3,2,3)
+imagesc(bvgc_mat_glm')
+overlay_refmat(links)
+axis square
+title('GLM, BVGC')
+
+subplot(3,2,4)
+imagesc(mvgc_mat_glm')
+colormap([0.98 0.98 0.92; 0 0 0])
+overlay_refmat(links)
+axis square
+title('GLM, MVGC')
+
+subplot(3,2,5)
+imagesc(bvgc_mat_glm_cont')
+overlay_refmat(links)
+axis square
+title('GLM-calcium, BVGC')
+
+subplot(3,2,6)
+imagesc(mvgc_mat_glm_cont')
+overlay_refmat(links)
+axis square
+title('GLM-calcium, MVGC')
+
+for i = 1:6
+    subplot(3,2,i)
+    axis square
+    xlabel('to neuron')
+    ylabel('from neuron')
+    xticks([1 10])
+    yticks([1 10])
+    set(gca,'fontsize',12)
+end
+
+
+   
         
 end
