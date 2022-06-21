@@ -5,7 +5,7 @@ Most functions have both a MALAB and a python version.
 
 The pipeline for analyzing the hindbrain data is written in python, and can be found in gc_pipeline/demo_GC.ipynb. All other steps of the pipeline written in python can be found in the folder gc_pipeline.
 
-To smooth noisy data using total-variation regularization, please refer to the MATLAB code in tvrg_smooth.
+To smooth noisy data using total-variation regularization, please refer to the MATLAB code matlab_tools/extractSmoothDerivative.m. 
 
 The MATLAB code to generate synthetic data can be find in folders matlab_plots. All auxillary functions written in MATLAB, including simulating dynamics, measuring GC, and computing the directional preference, are included in the folder matlab_tools.
 
