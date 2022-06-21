@@ -1,11 +1,11 @@
-function plot_fig1
-% function plot_fig1 
+function plot_gc_synthetic_network
+% function plot_gc_synthetic_network
 %
 % Simulate toy dynamics (VAR, GLM, and GLM+calcium) on a toy network of 10
 % neurons. Compute correlation, and granger causality (GC). Analyze the GC
 % performance as a function of connectivity strength of the network.
 %
-% This code generate fig1 in the manuscript Chen, Ginoux, Wyart, Mora,
+% This code generate Fig.1 in the manuscript Chen, Ginoux, Wyart, Mora,
 % Walczak (2022).
 
 
