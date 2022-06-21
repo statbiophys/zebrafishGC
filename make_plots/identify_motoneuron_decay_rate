@@ -1,5 +1,8 @@
 function identify_motoneuron_decay_rate(f)
 % Identify the decay time constant of motoneuron fluoresent
+%
+% This code generates plot S7 in the manuscript.
+%
 % Input:     f : N * T, multidimensional time-series for N neurons 
 
 nNodes = size(f,1);
