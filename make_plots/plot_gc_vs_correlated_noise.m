@@ -1,5 +1,6 @@
 function gc_var_plus_correlated_noise
 % GC is known to be sensitive to correlated noise. Here we visualize the effect. 
+% This correspond to Fig S4 S5 in the manuscript.
 
 nNodes = 10;
 maxLags = 2;
