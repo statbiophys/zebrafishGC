@@ -218,7 +218,135 @@ for i = 1:6
     set(gca,'fontsize',12)
 end
 
+%% 4. Vary the connectivity strength c, run dynamics, apply GC analysis
+%     and plot the false positive rate (fpr), false negative rate (fnr) as
+%     a function of c (Fig1, panel I,J)
 
-   
+%  4.1 VAR
+%  4.1.1 scan through connection strength for VAR. 
+cList_var = 0.05:0.05:0.7;
+lc = length(cList_var);
+tfList_var = 2000; %[500 1000 2000 4000 8000]; % 8000];
+ltf = length(tfList_var);
+nmc = 10;
+params.nmc = nmc;
+fpr2_bv_var = zeros(lc, ltf, nmc);
+fnr2_bv_var = fpr2_bv_var;
+fpr2_mv_var = fpr2_bv_var;
+fnr2_mv_var = fpr2_bv_var;
+
+params.mu = ones(nNodes,1)*(-2);
+
+gii1 = -0.1; % diagonal terms of the G matrix, to keep the dynamics stable
+for itf = 1:length(tfList_var)
+    tf = tfList_var(itf)
+    params.tf = tf;
+    [fpr2_bv, fnr2_bv, fpr2_mv, fnr2_mv] = ...
+        compute_error_rate_adjmat_list(gRefMat, cList_var, params, 'var', gii1);
+    fpr2_bv_var(:,itf,:) = fpr2_bv;
+    fnr2_bv_var(:,itf,:) = fnr2_bv;
+    fpr2_mv_var(:,itf,:) = fpr2_mv;
+    fnr2_mv_var(:,itf,:) = fnr2_mv;
+end
+
+% 4.1.2. Plot the fpr and fnr of the BVGC and MVGC matrix, vs c
+for itf = 1:ltf
+    figure(5)
+    errorbar(cList_var, mean(fpr2_bv_var(:,itf,:),3), ...
+        std(fpr2_bv_var(:,itf,:),0,3)./sqrt(nmc),'o')
+    hold on
+    errorbar(cList_var, mean(fpr2_mv_var(:,itf,:),3), ...
+        std(fpr2_mv_var(:,itf,:),0,3)./sqrt(nmc),'o')
+    errorbar(cList_var, mean(fnr2_bv_var(:,itf,:),3), ...
+        std(fnr2_bv_var(:,itf,:),0,3)./sqrt(nmc),'o')
+    errorbar(cList_var, mean(fnr2_mv_var(:,itf,:),3), ...
+        std(fnr2_mv_var(:,itf,:),0,3)./sqrt(nmc),'o')
+    hold off
+    legend('FPR, bi-variate','FPR, multi-variate',...
+        'FNR, bi-variate','FNR, multi-variate')
+    pause
+end
+
+
+%  4.2 GLM
+%  4.2.1 scan through connection strength for GLM. 
+cList = 0.1:0.1:2 ;
+lc = length(cList);
+tfList = 2000; %[500 1000 2000 4000 8000]; % 8000];
+ltf = length(tfList);
+nmc = 10;
+params.nmc = nmc;
+fpr2_bv_glm = zeros(lc, ltf, nmc);
+fnr2_bv_glm = fpr2_bv_glm;
+fpr2_mv_glm = fpr2_bv_glm;
+fnr2_mv_glm = fpr2_bv_glm;
+
+params.mu = ones(nNodes,1)*(-2);
+
+for itf = 1:length(tfList)
+    tf = tfList(itf)
+    params.tf = tf;
+    [fpr2_bv, fnr2_bv, fpr2_mv, fnr2_mv] = ...
+        compute_error_rate_adjmat_list(gRefMat, cList, params, 'glm');
+    fpr2_bv_glm(:,itf,:) = fpr2_bv;
+    fnr2_bv_glm(:,itf,:) = fnr2_bv;
+    fpr2_mv_glm(:,itf,:) = fpr2_mv;
+    fnr2_mv_glm(:,itf,:) = fnr2_mv;
+end
+
+for itf = 1:ltf
+    figure()
+    errorbar(cList, mean(fpr2_bv_glm(:,itf,:),3), ...
+        std(fpr2_bv_glm(:,itf,:),0,3)./sqrt(nmc),'o')
+    hold on
+    errorbar(cList, mean(fpr2_mv_glm(:,itf,:),3), ...
+        std(fpr2_mv_glm(:,itf,:),0,3)./sqrt(nmc),'o')
+    errorbar(cList, mean(fnr2_bv_glm(:,itf,:),3), ...
+        std(fnr2_bv_glm(:,itf,:),0,3)./sqrt(nmc),'o')
+    errorbar(cList, mean(fnr2_mv_glm(:,itf,:),3), ...
+        std(fnr2_mv_glm(:,itf,:),0,3)./sqrt(nmc),'o')
+    hold off
+    legend('FPR, bi-variate','FPR, multi-variate',...
+        'FNR, bi-variate','FNR, multi-variate')
+end
+
+%% 4.3 GLM-calcium
+fpr2_bv_glm_cont = zeros(lc, ltf, nmc);
+fnr2_bv_glm_cont = fpr2_bv_glm_cont;
+fpr2_mv_glm_cont = fpr2_bv_glm_cont;
+fnr2_mv_glm_cont = fpr2_bv_glm_cont;
+
+tau = 20;
+
+for itf = 1:length(tfList)
+    tf = tfList(itf)
+    params.tf = tf;
+%     params.tau_ca = tau;
+    [fpr2_bv, fnr2_bv, fpr2_mv, fnr2_mv] = ...
+        compute_error_rate_adjmat_list(gRefMat, cList, params, 'glm_calcium');
+    fpr2_bv_glm_cont(:,itf,:) = fpr2_bv;
+    fnr2_bv_glm_cont(:,itf,:) = fnr2_bv;
+    fpr2_mv_glm_cont(:,itf,:) = fpr2_mv;
+    fnr2_mv_glm_cont(:,itf,:) = fnr2_mv;
+end
+
+
+%%
+for itf = 1:ltf
+    figure()
+    errorbar(cList, mean(fpr2_bv_glm_cont(:,itf,:),3), ...
+        std(fpr2_bv_glm_cont(:,itf,:),0,3)./sqrt(nmc),'o')
+    hold on
+    errorbar(cList, mean(fpr2_mv_glm_cont(:,itf,:),3), ...
+        std(fpr2_mv_glm_cont(:,itf,:),0,3)./sqrt(nmc),'o')
+    errorbar(cList, mean(fnr2_bv_glm_cont(:,itf,:),3), ...
+        std(fnr2_bv_glm_cont(:,itf,:),0,3)./sqrt(nmc),'o')
+    errorbar(cList, mean(fnr2_mv_glm_cont(:,itf,:),3), ...
+        std(fnr2_mv_glm_cont(:,itf,:),0,3)./sqrt(nmc),'o')
+    hold off
+    legend('FPR, bi-variate','FPR, multi-variate',...
+        'FNR, bi-variate','FNR, multi-variate')
+end
+
         
 end
