@@ -1,4 +1,4 @@
-function simulate_motoneuron_fast_info_prop (dt_info)
+function plot_w_vs_tau_ca_motoneuron (dt_info)
 % Simulate zebrafish embryonic motoneurons' calcium transients
 % with empirically observed statistics of the data
 %
@@ -13,6 +13,8 @@ function simulate_motoneuron_fast_info_prop (dt_info)
 %
 % Fix tau_ca = 2.5s, tau_sampling = 0.25s, as given by the experiment
 % lambda = 32 s^-1
+%
+% This code plot Fig 5 B.
 
 
 nNodes = 10;
