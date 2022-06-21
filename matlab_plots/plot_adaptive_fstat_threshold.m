@@ -1,4 +1,4 @@
-function plot_fig6
+function plot_adaptive_fstat_threshold
 % Generate adaptive threshold for significance test in granger causality
 % analysis, using zebrafish embryonic motoneuron data.
 %
