@@ -12,6 +12,11 @@ function [smooth_f, df, disc_f, optimal_alpha, noise_power, acc_power] = ...
 % Note:
 % 1. Default number of states for discretization is 3
 % 2. This program assumes white noise.
+% 3. This code refer to TVRegDiff.m, developed by Rick Chartrand,
+%          , which you can download here:
+%          https://sites.google.com/site/dnartrahckcir/home/tvdiff-code
+% 4. This code was first created for X.Chen, F.Randi, A.M.Leifer, 
+%        W.Bialek, Physical Review E 99 (5), 052418 (2019)
 %
 %
 % Input:      noisy_f                   - 1D array of noisy signal
@@ -33,7 +38,8 @@ function [smooth_f, df, disc_f, optimal_alpha, noise_power, acc_power] = ...
 %             acc_power                 - total power of signal + noise
 %
 % Reference: 1. R.Chartrand, ISRN Applied Mathematics 2011
-%            2. X.Chen, F.Randi, A.M.Leifer, W.Bialek, arXiv:1810.07623
+%            2. X.Chen, F.Randi, A.M.Leifer, W.Bialek, 
+%               Physical Review E 99 (5), 052418 (2019)
 %
 % Xiaowen Chen
 % 2017-12-07 (edited 2018-11-15)
