@@ -1,2 +1,2 @@
 # zebrafishGC
-MATLAB code for Granger causality analysis on synthetic data and empirically observed calcium transients in zebrafish neuronal populations.
+Python and MATLAB code for Granger causality analysis on empirically observed calcium transients in zebrafish neuronal populations, and on synthetic dynamics generated on toy networks.
