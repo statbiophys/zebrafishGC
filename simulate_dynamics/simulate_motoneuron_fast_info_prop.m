@@ -1,11 +1,15 @@
-function simulate_motoneuron_fast_info_prop
+function simulate_motoneuron_fast_info_prop (dt_info)
 % Simulate zebrafish embryonic motoneurons' calcium transients
 % with empirically observed statistics of the data
 %
 % Compute the directional preference W_{IR} and W_{RC} as a function of
-% calciumd decay time scale tau_{ca}, at two different information
-% propagation time scale, tau_{info} = 0.025s, and tau_{info} = 0.25s, both
-% less than or equal to the sampling time scale 0.25s.
+% calciumd decay time scale tau_{ca}, at the information propagation time 
+% scale, the input dt_{info}.
+% 
+% We want to check if GC can learn the information flow when 
+% tau_info < tau_sampling
+% In the manuscript, we plot for both tau_info = 0.25s and tau_info = 0.025s,
+% both less than or equal to tau_sampling = 0.25s.
 %
 % Fix tau_ca = 2.5s, tau_sampling = 0.25s, as given by the experiment
 % lambda = 32 s^-1
@@ -16,7 +20,7 @@ nNodes = 10;
 sampling_freq = 4 ; 
 
 dt_sim = 0.0125; 
-dt_info = 0.025; %0.25;
+% dt_info = 0.025; %0.25;
 dn_info = floor(dt_info / dt_sim);
 params.dt_sim = dt_sim;
 
