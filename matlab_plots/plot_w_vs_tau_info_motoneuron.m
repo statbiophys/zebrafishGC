@@ -1,4 +1,4 @@
-function simulate_motoneuron_w_vs_tau_info
+function plot_w_vs_tau_info_motoneuron
 % Simulate zebrafish embryonic motoneurons' calcium transients
 % with empirically observed statistics of the data
 %
