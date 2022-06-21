@@ -347,6 +347,87 @@ for itf = 1:ltf
     legend('FPR, bi-variate','FPR, multi-variate',...
         'FNR, bi-variate','FNR, multi-variate')
 end
+     
+end
 
+% Run the dynamics, perform GC, then output the fpr and fnr compared to the groundtruth
+function [fpr2_bv, fnr2_bv, fpr2_mv, fnr2_mv] = ...
+    compute_error_rate_adjmat_list(gRefMat, cList, params, dynName, gii1)
+
+if nargin < 5
+    gii1 = 0;
+end
+
+lc = length(cList);
+nmc = params.nmc;
+fpr2_bv = nan(lc, nmc);
+fnr2_bv = nan(lc, nmc);
+fpr2_mv = nan(lc, nmc);
+fnr2_mv = nan(lc, nmc);
+% params.noise_std = 0.01;
+
+nNodes = size(gRefMat,1);
+maxLags = params.maxLags;
+tf = params.tf;
+gcLags = maxLags;
+
+for ic = 1:lc
+    c = cList(ic)
+    
+    G0 = zeros(nNodes, nNodes, maxLags);
+    G0(:,1:5,1) = gRefMat(:,1:5) * c; 
+    G0(:,6:10,1) = gRefMat(:,6:10) * (-c); 
+    G0(:,:,2) = G0(:,:,1);
+    for ii = 1:nNodes
+        G0(ii,ii,1) = gii1; 
+    end
+
+    %
+    params.G = G0;
+    
+    for imc = 1:nmc
         
+        switch dynName
+            case 'var'
+                sigma_sim = simulate_neuron_var(nNodes, tf*2, params);
+            case 'glm'
+                sigma_sim = simulate_neuron_glm(nNodes, tf*2, params);
+            case 'glm_calcium'
+                sigma_sim = simulate_neuron_glm(nNodes, tf*2, params);
+                tau = params.tau_ca;
+                sigma_sim = spike_to_calcium(sigma_sim, params);
+%                 sigma_sim = spike_to_calcium(sigma_sim, tau); 
+           otherwise
+                warning('Unexpected dynamics type. No plot created.')
+        end
+
+
+        if max(abs(sigma_sim(:))) < 1e3
+
+            [~, bvgc_mat, mvgc_mat] = ...
+                compute_corr_mat_and_gc_mat (sigma_sim, gcLags, 0);
+
+            [fpr_bv, fnr_bv] = compute_error_rate_adjmat(gRefMat, bvgc_mat);
+            fpr2_bv(ic, imc) = fpr_bv;
+            fnr2_bv(ic, imc) = fnr_bv;
+
+            [fpr_mv, fnr_mv] = compute_error_rate_adjmat(gRefMat, mvgc_mat);
+            fpr2_mv(ic, imc) = fpr_mv;
+            fnr2_mv(ic, imc) = fnr_mv;
+
+        end
+        
+    end
+end
+
+
+end
+
+% overlay the ground truth (red dots) to the plot of GC matrices
+function overlay_refmat(links)
+
+hold on
+plot(links(:,2), links(:,1),'r.','MarkerSize',12)
+hold off
+
 end
