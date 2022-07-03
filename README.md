@@ -1,11 +1,11 @@
 # zebrafishGC
 Python and MATLAB code for Granger causality analysis on empirically observed calcium transients in zebrafish neuronal populations, and on synthetic dynamics generated on toy networks. This set of codes is assciated with the manuscript "Granger causality analysis for calcium transients in neuronal networks: challenges and improvements", by X. Chen, F. Ginoux, T. Mora, A. M. Walczak, and C. Wyart (2022). The data used in the paper, and can be used as sample data for this pipeline, can be found https://zenodo.org/record/6774389#.Yr2JvC2l2S5
 
-Most functions have both a MALAB and a python version.
+The complete pipeline, which can take user input data in .txt format, is in gc_pipeline/run_pipeline.sh. 
+Example data is included in the folder, as "example.txt" (for 20 neurons in a hindbrain dataset) and "example_mt.txt" (for motoneuron in fish f3t2). 
+The bash script run_pipeline.sh calls various MALAB and python functions, which are all included in the folder gc_pipeline.
 
-The pipeline for analyzing the hindbrain data is written in python, and can be found in gc_pipeline/demo_GC.ipynb. All other steps of the pipeline written in python can be found in the folder gc_pipeline.
-
-To smooth noisy data using total-variation regularization, please refer to the MATLAB code matlab_tools/extractSmoothDerivative.m. 
+For complete GC analysis as described in the manuscript, please find demo_GC_hindbrain.ipynb and demo_GC_motoneuron.ipynb as codes that analyzes the data presented in the paper, also in the folder gc_pipeline.. 
 
 The MATLAB code to generate synthetic data can be find in folders matlab_plots. All auxillary functions written in MATLAB, including simulating dynamics, measuring GC, and computing the directional preference, are included in the folder matlab_tools.
 
