@@ -4,6 +4,7 @@ export PATH=/Applications/MATLAB_R2021b.app/bin:$PATH
 
 echo "Enter filename with fluorescence calcium transients (without '.txt'): "
 echo "[Make sure each row corresponds to one neuron]"
+echo "For example data, use 'example.txt' for hindbrain, and 'example_mt.txt' for motoneuron."
 read filename
 echo "File name is ${filename}.txt"
 
@@ -13,15 +14,15 @@ echo "Frequency = $sf Hz."
 
 echo "remove motion artifact ..."
 
-#matlab -nodisplay -nodesktop -r "try remove_motion_artifact('$filename'); catch; end; quit"
+matlab -nodisplay -nodesktop -r "try remove_motion_artifact('$filename'); catch; end; quit"
 
-#echo "z-score fluorescence ..."
+echo "z-score fluorescence ..."
 
-#matlab -nodisplay -nodesktop -r "try zscore_f('$filename'); catch; end; quit"
+matlab -nodisplay -nodesktop -r "try zscore_f('$filename'); catch; end; quit"
 
-#echo "smooth the signal with total-variation regularization ..."
+echo "smooth the signal with total-variation regularization ..."
 
-#matlab -nodesktop -r "try tvreg_smoothen('$filename', $sf); catch; end; quit"
+matlab -nodesktop -r "try tvreg_smoothen('$filename', $sf); catch; end; quit"
 
 echo "Now you see the noise correlation, is it large enough that you want to use the smoothened fluorescence, instead of the original fluorescence? (y/n)"
 
@@ -30,11 +31,12 @@ read yn
 case $yn in
     [yY] ) echo "replace signal with the smooth version ...";
 	   filename="${filename}_smooth";;
-    [nN] ) echo "keep the original signal ...";;
-    * ) echo "invalid response";;
+    [nN] ) echo "keep the original signal, use the z-scored version...";
+	   filename="${filename}_zs";;
+    * ) echo "invalid response";
 esac
 
-echo "Filename is ${filename}.txt"
+echo "Filename is ${filename}.txt. This is to be typed in the next user input."
 	   
 echo "Now we compute the granger causality..."
 #echo "enter lags: "
