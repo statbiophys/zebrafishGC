@@ -1,5 +1,5 @@
 # zebrafishGC
-Python and MATLAB code for Granger causality analysis on empirically observed calcium transients in zebrafish neuronal populations, and on synthetic dynamics generated on toy networks. This set of codes is assciated with the manuscript "Granger causality analysis for calcium transients in neuronal networks: challenges and improvements", by X. Chen, F. Ginoux, T. Mora, A. M. Walczak, and C. Wyart (2022). The data used in the paper, and can be used as sample data for this pipeline, can be found https://zenodo.org/record/6774389#.Yr2JvC2l2S5
+Python and MATLAB code for Granger causality analysis on empirically observed calcium transients in zebrafish neuronal populations, and on synthetic dynamics generated on toy networks. This set of codes is assciated with the manuscript "Granger causality analysis for calcium transients in neuronal networks: challenges and improvements", by X. Chen, F. Ginoux, M. Carbo-Tano, T. Mora, A. M. Walczak, and C. Wyart (2023). The data used in the paper, and can be used as sample data for this pipeline, can be found https://zenodo.org/record/6774389#.Yr2JvC2l2S5
 
 The complete pipeline, which can take user input data in .txt format, is in gc_pipeline/run_pipeline.sh. 
 Example data is included in the folder, as "example.txt" (for 20 neurons in a hindbrain dataset) and "example_mt.txt" (for motoneuron in fish f3t2). 
@@ -8,6 +8,9 @@ The bash script run_pipeline.sh calls various MALAB and python functions, which 
 For complete GC analysis as described in the manuscript, please find demo_GC_hindbrain.ipynb and demo_GC_motoneuron.ipynb as codes that analyzes the data presented in the paper, also in the folder gc_pipeline.. 
 
 The MATLAB code to generate synthetic data can be find in folders matlab_plots. All auxillary functions written in MATLAB, including simulating dynamics, measuring GC, and computing the directional preference, are included in the folder matlab_tools.
+
+Reference:
+X. Chen, F. Ginoux, M. Carbo-Tano, T. Mora, A. M. Walczak, C. Wyart, "Granger causality analysis for calcium transient in neuronal populations: challenges and improvements", eLife, 12:e81279 (2023). (link)
 
 ----
 
