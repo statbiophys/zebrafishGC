@@ -10,7 +10,7 @@ For complete GC analysis as described in the manuscript, please find demo_GC_hin
 The MATLAB code to generate synthetic data can be find in folders matlab_plots. All auxillary functions written in MATLAB, including simulating dynamics, measuring GC, and computing the directional preference, are included in the folder matlab_tools.
 
 Reference:
-X. Chen, F. Ginoux, M. Carbo-Tano, T. Mora, A. M. Walczak, C. Wyart, "Granger causality analysis for calcium transient in neuronal populations: challenges and improvements", eLife, 12:e81279 (2023). (link)
+X. Chen, F. Ginoux, M. Carbo-Tano, T. Mora, A. M. Walczak, C. Wyart, "Granger causality analysis for calcium transient in neuronal populations: challenges and improvements", eLife, 12:e81279 (2023). (link: https://elifesciences.org/articles/81279)
 
 ----
 
